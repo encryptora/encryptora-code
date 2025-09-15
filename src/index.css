@@ -2,41 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Encryptora Design System - Colores para ciberseguridad profesional
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Colores principales */
+    --background: 210 100% 6%; /* Azul Oscuro #0A192F */
+    --foreground: 0 0% 100%; /* Blanco puro */
+    
+    --carbon: 0 0% 5%; /* Negro Carbón #0D0D0D */
+    --dark-blue: 210 100% 6%; /* Azul Oscuro #0A192F */
+    
+    /* Colores de acento */
+    --electric-blue: 195 100% 47%; /* Azul Eléctrico #00AEEF */
+    --cyan-bright: 195 100% 60%; /* Cian brillante #33D6FF */
+    --teal-green: 165 100% 36%; /* Verde Azulado #00B894 */
+    
+    /* Neutros metálicos */
+    --metallic-gray: 0 0% 18%; /* Gris Metálico #2E2E2E */
+    --metallic-light: 0 0% 36%; /* Gris Metálico Claro #5C5C5C */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 195 100% 47%; /* Electric Blue */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 0 0% 18%; /* Metallic Gray */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 165 100% 36%; /* Teal Green */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 195 100% 47%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+    
+    /* Gradientes futuristas */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--electric-blue)), hsl(var(--cyan-bright)));
+    --gradient-dark: linear-gradient(135deg, hsl(var(--carbon)), hsl(var(--dark-blue)));
+    --gradient-accent: linear-gradient(90deg, hsl(var(--electric-blue)), hsl(var(--teal-green)));
+    
+    /* Sombras con glow effect */
+    --shadow-glow: 0 0 30px hsl(var(--electric-blue) / 0.3);
+    --shadow-card: 0 10px 30px -10px hsl(var(--carbon) / 0.5);
+    
+    /* Transiciones suaves */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-glow: all 0.5s ease;
 
     --sidebar-background: 0 0% 98%;
 

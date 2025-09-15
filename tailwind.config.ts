@@ -19,6 +19,16 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        
+        // Colores principales de Encryptora
+        carbon: "hsl(var(--carbon))",
+        "dark-blue": "hsl(var(--dark-blue))",
+        "electric-blue": "hsl(var(--electric-blue))",
+        "cyan-bright": "hsl(var(--cyan-bright))",
+        "teal-green": "hsl(var(--teal-green))",
+        "metallic-gray": "hsl(var(--metallic-gray))",
+        "metallic-light": "hsl(var(--metallic-light))",
+        
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -62,6 +72,19 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      backgroundImage: {
+        'gradient-primary': 'var(--gradient-primary)',
+        'gradient-dark': 'var(--gradient-dark)',
+        'gradient-accent': 'var(--gradient-accent)',
+      },
+      boxShadow: {
+        'glow': 'var(--shadow-glow)',
+        'card': 'var(--shadow-card)',
+      },
+      transitionProperty: {
+        'smooth': 'var(--transition-smooth)',
+        'glow': 'var(--transition-glow)',
       },
       keyframes: {
         "accordion-down": {
