@@ -12,8 +12,8 @@ WORKDIR /app
 RUN npm install -g serve
 COPY --from=build /app/dist ./dist
 
-# Easypanel suele pasar $PORT automáticamente
-ENV PORT=$PORT
-EXPOSE $PORT
+# Easypanel define $PORT automáticamente
+ENV PORT=3000
+EXPOSE 3000
 
-CMD ["serve", "-s", "dist", "-l", "$PORT"]
+CMD ["serve", "-s", "dist", "-l", "3000"]
