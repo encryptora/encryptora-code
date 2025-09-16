@@ -1,1 +1,1 @@
-web: npm install --include=dev && npm run build && npx serve dist
+web: npm install --include=dev && npm run build && npx serve dist 
