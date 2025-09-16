@@ -1,6 +1,5 @@
 import { Shield, ArrowRight, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
 import heroCybersecurity from '@/assets/hero-cybersecurity.jpg';
 
 const Hero = () => {
@@ -65,24 +64,20 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link to="/contacto">
-              <Button 
-                size="lg" 
-                className="bg-gradient-primary hover:opacity-90 shadow-glow text-lg px-8 py-6 group"
-              >
-                Auditoría Gratuita
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-            <Link to="/servicios">
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-foreground text-lg px-8 py-6"
-              >
-                Conocer Servicios
-              </Button>
-            </Link>
+            <Button 
+              size="lg" 
+              className="bg-gradient-primary hover:opacity-90 shadow-glow text-lg px-8 py-6 group"
+            >
+              Auditoría Gratuita
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Button>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-foreground text-lg px-8 py-6"
+            >
+              Conocer Servicios
+            </Button>
           </div>
 
           {/* Trust Indicators */}
