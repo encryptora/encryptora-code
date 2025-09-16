@@ -1,1 +1,2 @@
-web: npm install --include=dev && npm run build && npx serve dist 
+web: npm install --legacy-peer-deps --include=dev && npm run build && npx serve dist
+
