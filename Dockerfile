@@ -2,31 +2,34 @@
 FROM node:18 AS build
 WORKDIR /app
 
-# Copiamos primero package.json y package-lock.json para aprovechar caché
+# Copiar primero package.json y lock
 COPY package*.json ./
 
-# Instala dependencias incluyendo las de desarrollo (vite, eslint, tailwind, etc.)
+# Instalar dependencias + devDependencies
 RUN npm install --include=dev
 
-# Copiamos el resto del código
+# Instalamos vite globalmente para asegurarnos de que exista
+RUN npm install -g vite
+
+# Copiar resto del código
 COPY . .
 
-# Construimos la app
+# Construir el proyecto
 RUN npm run build
 
 # Etapa de producción
 FROM node:18
 WORKDIR /app
 
-# Instala servidor estático "serve"
+# Instalar servidor estático
 RUN npm install -g serve
 
-# Copiamos solo la carpeta dist generada en la etapa de build
+# Copiar solo el resultado del build
 COPY --from=build /app/dist ./dist
 
-# Easypanel asigna $PORT automáticamente, usamos 3000 por defecto
+# Puerto
 ENV PORT=3000
 EXPOSE 3000
 
-# Comando de inicio
+# Iniciar servidor
 CMD ["serve", "-s", "dist", "-l", "3000"]
