@@ -1,36 +1,115 @@
+import { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 const Contact = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
+    sector: '',
+    message: '',
+    privacy: false
+  });
+  const { toast } = useToast();
+
   const contactInfo = [
     {
       icon: Mail,
       title: 'Email',
-      details: 'contacto@encryptora.com',
+      details: 'info.encryptora@gmail.com',
       description: 'Respuesta en menos de 2 horas'
     },
     {
       icon: Phone,
       title: 'Teléfono',
-      details: '+34 900 123 456',
-      description: 'Soporte 24/7 para emergencias'
+      details: '+34 665484577',
+      description: 'Consultas y emergencias'
     },
     {
       icon: MapPin,
       title: 'Ubicación',
-      details: 'Madrid, España',
-      description: 'Servicios en toda Europa'
+      details: 'España',
+      description: 'Servicios remotos y presenciales'
     },
     {
       icon: Clock,
       title: 'Horario',
       details: 'Lun - Vie: 9:00 - 18:00',
-      description: 'Emergencias: 24/7'
+      description: 'Consultas: Horario comercial'
     }
   ];
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.privacy) {
+      toast({
+        title: "Error",
+        description: "Debes aceptar la política de privacidad.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase
+        .from('contacts')
+        .insert([
+          {
+            name: formData.name,
+            company: formData.company,
+            email: formData.email,
+            phone: formData.phone,
+            sector: formData.sector,
+            message: formData.message,
+          }
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "¡Mensaje enviado!",
+        description: "Nos pondremos en contacto contigo pronto.",
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        company: '',
+        email: '',
+        phone: '',
+        sector: '',
+        message: '',
+        privacy: false
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Ha ocurrido un error al enviar el mensaje. Inténtalo de nuevo.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <section id="contacto" className="py-20 bg-carbon">
@@ -57,93 +136,125 @@ const Contact = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Nombre *
+                    </label>
+                    <Input
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Tu nombre completo"
+                      className="bg-input border-metallic-gray focus:border-electric-blue"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Empresa *
+                    </label>
+                    <Input
+                      name="company"
+                      value={formData.company}
+                      onChange={handleInputChange}
+                      placeholder="Nombre de tu empresa"
+                      className="bg-input border-metallic-gray focus:border-electric-blue"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Email *
+                    </label>
+                    <Input
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="tu@empresa.com"
+                      className="bg-input border-metallic-gray focus:border-electric-blue"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Teléfono
+                    </label>
+                    <Input
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="+34 600 000 000"
+                      className="bg-input border-metallic-gray focus:border-electric-blue"
+                    />
+                  </div>
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Nombre *
+                    Sector de Actividad
                   </label>
-                  <Input
-                    placeholder="Tu nombre completo"
+                  <select 
+                    name="sector"
+                    value={formData.sector}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-input border border-metallic-gray rounded-md focus:border-electric-blue focus:outline-none text-foreground"
+                  >
+                    <option value="">Selecciona tu sector</option>
+                    <option value="financiero">Financiero</option>
+                    <option value="salud">Salud</option>
+                    <option value="tecnologia">Tecnología</option>
+                    <option value="industrial">Industrial</option>
+                    <option value="comercio">Comercio</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Cuéntanos sobre tu situación actual
+                  </label>
+                  <Textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    placeholder="Describe brevemente tus necesidades de ciberseguridad, inquietudes actuales o el tipo de servicios que te interesan..."
+                    rows={4}
                     className="bg-input border-metallic-gray focus:border-electric-blue"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Empresa *
-                  </label>
-                  <Input
-                    placeholder="Nombre de tu empresa"
-                    className="bg-input border-metallic-gray focus:border-electric-blue"
+
+                <div className="flex items-start space-x-3">
+                  <input
+                    type="checkbox"
+                    id="privacy"
+                    name="privacy"
+                    checked={formData.privacy}
+                    onChange={handleInputChange}
+                    className="mt-1 w-4 h-4 text-electric-blue bg-input border-metallic-gray rounded focus:ring-electric-blue"
                   />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Email *
+                  <label htmlFor="privacy" className="text-sm text-muted-foreground">
+                    Acepto la política de privacidad y el tratamiento de mis datos para contacto comercial.
                   </label>
-                  <Input
-                    type="email"
-                    placeholder="tu@empresa.com"
-                    className="bg-input border-metallic-gray focus:border-electric-blue"
-                  />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Teléfono
-                  </label>
-                  <Input
-                    placeholder="+34 600 000 000"
-                    className="bg-input border-metallic-gray focus:border-electric-blue"
-                  />
-                </div>
-              </div>
 
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Sector de Actividad
-                </label>
-                <select className="w-full p-3 bg-input border border-metallic-gray rounded-md focus:border-electric-blue focus:outline-none text-foreground">
-                  <option value="">Selecciona tu sector</option>
-                  <option value="financiero">Financiero</option>
-                  <option value="salud">Salud</option>
-                  <option value="tecnologia">Tecnología</option>
-                  <option value="industrial">Industrial</option>
-                  <option value="comercio">Comercio</option>
-                  <option value="otro">Otro</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Cuéntanos sobre tu situación actual
-                </label>
-                <Textarea
-                  placeholder="Describe brevemente tus necesidades de ciberseguridad, inquietudes actuales o el tipo de servicios que te interesan..."
-                  rows={4}
-                  className="bg-input border-metallic-gray focus:border-electric-blue"
-                />
-              </div>
-
-              <div className="flex items-start space-x-3">
-                <input
-                  type="checkbox"
-                  id="privacy"
-                  className="mt-1 w-4 h-4 text-electric-blue bg-input border-metallic-gray rounded focus:ring-electric-blue"
-                />
-                <label htmlFor="privacy" className="text-sm text-muted-foreground">
-                  Acepto la política de privacidad y el tratamiento de mis datos para contacto comercial.
-                </label>
-              </div>
-
-              <Button className="w-full bg-gradient-primary hover:opacity-90 shadow-glow text-lg py-6">
-                Solicitar Auditoría Gratuita
-              </Button>
+                <Button 
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full bg-gradient-primary hover:opacity-90 shadow-glow text-lg py-6"
+                >
+                  {isLoading ? 'Enviando...' : 'Solicitar Auditoría Gratuita'}
+                </Button>
+              </form>
 
               <div className="text-center pt-4">
                 <p className="text-sm text-muted-foreground">
-                  📞 <strong>¿Emergencia de seguridad?</strong> Llama al +34 900 123 456
+                  📞 <strong>¿Necesitas ayuda urgente?</strong> Escríbenos a info.encryptora@gmail.com
                 </p>
               </div>
             </CardContent>
@@ -196,7 +307,7 @@ const Contact = () => {
                 </div>
                 <div className="pt-4 border-t border-metallic-gray">
                   <p className="text-sm text-muted-foreground">
-                    <strong className="text-electric-blue">Valor €2,500</strong> - Completamente gratuito durante este mes.
+                    <strong className="text-electric-blue">Consulta gratuita</strong> - Sin compromiso, evaluamos tus necesidades.
                   </p>
                 </div>
               </CardContent>
