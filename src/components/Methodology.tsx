@@ -1,30 +1,59 @@
-import { Search, AlertTriangle, Shield, Eye } from 'lucide-react';
+import { Search, AlertTriangle, Shield, Eye, CheckCircle, Users, Lock, Zap } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const Methodology = () => {
   const steps = [
     {
       icon: Search,
-      title: 'Análisis',
+      title: 'Análisis Exhaustivo',
       description: 'Evaluamos tu infraestructura actual, identificamos activos críticos y analizamos tu superficie de ataque.',
-      color: 'electric-blue'
+      color: 'electric-blue',
+      details: ['Inventario de activos', 'Mapeo de red', 'Identificación de servicios', 'Evaluación de procesos']
     },
     {
       icon: AlertTriangle,
-      title: 'Detección',
+      title: 'Detección de Vulnerabilidades',
       description: 'Identificamos vulnerabilidades, amenazas potenciales y puntos débiles en tus sistemas de seguridad.',
-      color: 'cyan-bright'
+      color: 'cyan-bright',
+      details: ['Escaneo de vulnerabilidades', 'Análisis de configuraciones', 'Revisión de políticas', 'Assessment de riesgos']
     },
     {
       icon: Shield,
-      title: 'Mitigación',
+      title: 'Implementación de Controles',
       description: 'Implementamos soluciones específicas para neutralizar riesgos y fortalecer tus defensas digitales.',
-      color: 'teal-green'
+      color: 'teal-green',
+      details: ['Despliegue de soluciones', 'Configuración de sistemas', 'Integración de herramientas', 'Testing de controles']
     },
     {
       icon: Eye,
-      title: 'Prevención',
+      title: 'Monitorización Continua',
       description: 'Establecemos monitoreo continuo y protocolos preventivos para mantener tu seguridad a largo plazo.',
-      color: 'electric-blue'
+      color: 'electric-blue',
+      details: ['Vigilancia 24/7', 'Alertas automáticas', 'Informes periódicos', 'Mejora continua']
+    }
+  ];
+
+  const benefits = [
+    {
+      icon: CheckCircle,
+      title: 'Metodología Probada',
+      description: 'Procesos validados en múltiples sectores industriales'
+    },
+    {
+      icon: Users,
+      title: 'Equipo Especializado',
+      description: 'Consultores certificados en las principales tecnologías'
+    },
+    {
+      icon: Lock,
+      title: 'Seguridad Garantizada',
+      description: 'Cumplimiento de los más altos estándares de seguridad'
+    },
+    {
+      icon: Zap,
+      title: 'Resultados Rápidos',
+      description: 'Implementación eficiente con impacto inmediato'
     }
   ];
 
@@ -32,15 +61,39 @@ const Methodology = () => {
     <section id="metodologia" className="py-20 bg-gradient-dark">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Cómo{' '}
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            Nuestra{' '}
             <span className="text-transparent bg-clip-text bg-gradient-primary">
-              Trabajamos
+              Metodología
             </span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Nuestra metodología probada garantiza resultados efectivos y duraderos para la protección de tu empresa.
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            Antes de implementar cualquier solución de ciberseguridad en tu red, llevamos a cabo un análisis exhaustivo 
+            de tus necesidades, identificamos posibles vulnerabilidades y diseñamos una estrategia personalizada con las 
+            medidas de protección más adecuadas para reforzar tus sistemas.
           </p>
+        </div>
+
+        {/* Benefits Grid */}
+        <div className="mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {benefits.map((benefit, index) => {
+              const IconComponent = benefit.icon;
+              return (
+                <Card key={index} className="bg-card border-metallic-gray hover:border-electric-blue transition-colors duration-300 text-center">
+                  <CardHeader>
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-primary rounded-lg mb-4 mx-auto">
+                      <IconComponent className="w-6 h-6 text-foreground" />
+                    </div>
+                    <CardTitle className="text-lg text-foreground">{benefit.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{benefit.description}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
         </div>
 
         <div className="relative">

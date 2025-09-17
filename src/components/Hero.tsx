@@ -32,33 +32,34 @@ const Hero = () => {
 
           {/* Main Heading */}
           <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
-            Protege tu{' '}
+            Consultoría en{' '}
             <span className="text-transparent bg-clip-text bg-gradient-primary">
-              Empresa
+              Ciberseguridad
             </span>
             <br />
-            del Futuro Digital
+            Protegemos lo que más te importa
           </h1>
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-            <strong className="text-electric-blue">Encryptora</strong> es tu socio estratégico en ciberseguridad. 
-            Protegemos a las empresas contra amenazas digitales con soluciones innovadoras y confiables.
+            En <strong className="text-electric-blue">Encryptora</strong>, ofrecemos un servicio de ciberseguridad integral 
+            diseñado para proteger tu organización de amenazas digitales, garantizar la continuidad de tu negocio 
+            y salvaguardar tus datos más valiosos.
           </p>
 
           {/* Key Points */}
           <div className="flex flex-wrap justify-center gap-6 mb-10">
             <div className="flex items-center space-x-2 text-foreground">
               <Lock className="w-5 h-5 text-electric-blue" />
-              <span className="text-sm font-medium">Seguridad Total</span>
+              <span className="text-sm font-medium">Protección Integral</span>
             </div>
             <div className="flex items-center space-x-2 text-foreground">
               <Shield className="w-5 h-5 text-teal-green" />
-              <span className="text-sm font-medium">Confianza Empresarial</span>
+              <span className="text-sm font-medium">Soluciones Personalizadas</span>
             </div>
             <div className="flex items-center space-x-2 text-foreground">
               <ArrowRight className="w-5 h-5 text-cyan-bright" />
-              <span className="text-sm font-medium">Soluciones Innovadoras</span>
+              <span className="text-sm font-medium">Confiabilidad Garantizada</span>
             </div>
           </div>
 
@@ -82,7 +83,7 @@ const Hero = () => {
 
           {/* Trust Indicators */}
           <div className="mt-16 pt-8 border-t border-metallic-gray">
-            <p className="text-sm text-muted-foreground mb-4">Confianza de empresas líderes</p>
+            <p className="text-sm text-muted-foreground mb-4">Nos especializamos en implementar soluciones que se adaptan a cada cliente</p>
             <div className="flex justify-center items-center space-x-8 opacity-60">
               <div className="w-12 h-12 bg-metallic-gray rounded-lg flex items-center justify-center">
                 <Shield className="w-6 h-6 text-electric-blue" />

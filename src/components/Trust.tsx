@@ -1,39 +1,90 @@
-import { Award, Shield, Users, Globe } from 'lucide-react';
+import { Award, Shield, Users, Globe, Lock, Eye, Target, CheckCircle, Zap, Database, Search } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const Trust = () => {
-  const certifications = [
-    { name: 'ISO 27001', description: 'Gestión de Seguridad de la Información' },
-    { name: 'CISSP', description: 'Profesional Certificado en Seguridad' },
-    { name: 'CEH', description: 'Hacker Ético Certificado' },
-    { name: 'CISM', description: 'Gestión de Seguridad de la Información' }
-  ];
-
-  const partnerships = [
-    { name: 'Microsoft Security', type: 'Partner Gold' },
-    { name: 'Cisco Security', type: 'Premier Partner' },
-    { name: 'Palo Alto Networks', type: 'Authorized Partner' },
-    { name: 'CrowdStrike', type: 'Elite Partner' }
-  ];
-
-  const successCases = [
+  const capabilities = [
     {
-      sector: 'Sector Financiero',
-      challenge: 'Implementación de framework de seguridad PCI DSS',
-      result: 'Certificación exitosa y 0 incidentes en 24 meses',
-      impact: '€2M ahorrados en multas potenciales'
+      icon: Shield,
+      title: 'Protección Proactiva',
+      description: 'Identificamos y neutralizamos amenazas antes de que impacten en tu negocio',
+      features: ['Detección temprana', 'Prevención automatizada', 'Respuesta inmediata']
     },
     {
-      sector: 'Sector Salud',
-      challenge: 'Cumplimiento GDPR y protección de datos médicos',
-      result: 'Sistema compliant implementado en 3 meses',
-      impact: '100% conformidad en auditorías'
+      icon: Eye,
+      title: 'Monitorización Continua',
+      description: 'Vigilancia 24/7 de tu infraestructura con tecnología de vanguardia',
+      features: ['SOC dedicado', 'Alertas en tiempo real', 'Análisis de comportamiento']
     },
     {
-      sector: 'Sector Industrial',
-      challenge: 'Seguridad OT/IT en infraestructura crítica',
-      result: 'Red segmentada y monitorizada 24/7',
-      impact: '95% reducción en vectores de ataque'
+      icon: Target,
+      title: 'Evaluaciones Especializadas',
+      description: 'Auditorías exhaustivas que revelan vulnerabilidades críticas',
+      features: ['Pentesting avanzado', 'Análisis de riesgos', 'Reportes ejecutivos']
+    },
+    {
+      icon: CheckCircle,
+      title: 'Cumplimiento Normativo',
+      description: 'Garantizamos el cumplimiento de todas las regulaciones aplicables',
+      features: ['RGPD/LOPD', 'ISO 27001', 'Sector específico']
+    }
+  ];
+
+  const methodology = [
+    {
+      step: '01',
+      title: 'Evaluación Inicial',
+      description: 'Análisis completo de tu situación actual de seguridad',
+      icon: Search,
+      details: ['Inventario de activos', 'Identificación de amenazas', 'Análisis de vulnerabilidades', 'Evaluación de riesgos']
+    },
+    {
+      step: '02', 
+      title: 'Diseño de Estrategia',
+      description: 'Desarrollo de un plan de seguridad personalizado',
+      icon: Target,
+      details: ['Definición de objetivos', 'Selección de controles', 'Roadmap de implementación', 'Presupuesto optimizado']
+    },
+    {
+      step: '03',
+      title: 'Implementación',
+      description: 'Despliegue de soluciones con mínima interrupción',
+      icon: Zap,
+      details: ['Configuración de sistemas', 'Integración con infraestructura', 'Migración de datos', 'Testing exhaustivo']
+    },
+    {
+      step: '04',
+      title: 'Monitorización',
+      description: 'Vigilancia continua y mejora constante',
+      icon: Eye,
+      details: ['Monitorización 24/7', 'Gestión de incidentes', 'Actualizaciones de seguridad', 'Reporting periódico']
+    }
+  ];
+
+  const benefits = [
+    {
+      icon: Database,
+      title: 'Protección de Datos',
+      stat: '100%',
+      description: 'Confidencialidad garantizada de tus activos digitales'
+    },
+    {
+      icon: Zap,
+      title: 'Tiempo de Respuesta',
+      stat: '<2h',
+      description: 'Respuesta inmediata ante incidentes críticos'
+    },
+    {
+      icon: Shield,
+      title: 'Disponibilidad',
+      stat: '99.9%',
+      description: 'Uptime garantizado de sistemas críticos'
+    },
+    {
+      icon: CheckCircle,
+      title: 'Compliance',
+      stat: '100%',
+      description: 'Cumplimiento normativo asegurado'
     }
   ];
 
@@ -41,110 +92,133 @@ const Trust = () => {
     <section id="confianza" className="py-20 bg-gradient-dark">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Confianza y{' '}
             <span className="text-transparent bg-clip-text bg-gradient-primary">
-              Seguridad
+              Excelencia
             </span>
-          </h2>
+          </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Nuestras certificaciones, alianzas estratégicas y casos de éxito respaldan nuestro compromiso con la excelencia.
+            Nuestra metodología probada y capacidades avanzadas nos convierten en el socio ideal para proteger tu empresa.
           </p>
         </div>
 
-        {/* Certifications */}
+        {/* Capabilities */}
         <div className="mb-20">
-          <h3 className="text-2xl font-bold text-foreground text-center mb-10">
-            Certificaciones Profesionales
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {certifications.map((cert, index) => (
-              <Card key={index} className="bg-card border-metallic-gray hover:border-electric-blue transition-colors duration-300 text-center">
-                <CardHeader className="pb-3">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-lg mx-auto mb-4">
-                    <Award className="w-8 h-8 text-foreground" />
-                  </div>
-                  <CardTitle className="text-lg text-foreground">{cert.name}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">{cert.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Strategic Partnerships */}
-        <div className="mb-20">
-          <h3 className="text-2xl font-bold text-foreground text-center mb-10">
-            Alianzas Estratégicas
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {partnerships.map((partner, index) => (
-              <div key={index} className="bg-card p-6 rounded-lg border border-metallic-gray hover:border-teal-green transition-colors duration-300 text-center">
-                <Shield className="w-12 h-12 text-teal-green mx-auto mb-4" />
-                <h4 className="text-lg font-semibold text-foreground mb-2">{partner.name}</h4>
-                <p className="text-sm text-electric-blue font-medium">{partner.type}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Success Cases */}
-        <div>
-          <h3 className="text-2xl font-bold text-foreground text-center mb-10">
-            Casos de Éxito
-          </h3>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {successCases.map((case_, index) => (
-              <Card key={index} className="bg-card border-metallic-gray hover:shadow-glow transition-all duration-300">
-                <CardHeader>
-                  <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-10 h-10 bg-electric-blue/20 rounded-lg flex items-center justify-center">
-                      <Globe className="w-5 h-5 text-electric-blue" />
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12">
+            Nuestras Capacidades
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {capabilities.map((capability, index) => {
+              const IconComponent = capability.icon;
+              return (
+                <Card key={index} className="bg-card border-metallic-gray hover:border-electric-blue transition-all duration-300 hover:shadow-glow">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center">
+                        <IconComponent className="w-6 h-6 text-foreground" />
+                      </div>
+                      <CardTitle className="text-xl text-foreground">{capability.title}</CardTitle>
                     </div>
-                    <CardTitle className="text-lg text-foreground">{case_.sector}</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <h5 className="font-semibold text-foreground mb-2">Desafío:</h5>
-                    <p className="text-sm text-muted-foreground">{case_.challenge}</p>
-                  </div>
-                  <div>
-                    <h5 className="font-semibold text-foreground mb-2">Resultado:</h5>
-                    <p className="text-sm text-muted-foreground">{case_.result}</p>
-                  </div>
-                  <div className="pt-2 border-t border-metallic-gray">
-                    <h5 className="font-semibold text-electric-blue mb-2">Impacto:</h5>
-                    <p className="text-sm text-electric-blue font-medium">{case_.impact}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground mb-4">{capability.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {capability.features.map((feature, featureIndex) => (
+                        <span key={featureIndex} className="text-xs bg-electric-blue/20 text-electric-blue px-2 py-1 rounded">
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="mt-20 bg-card p-8 rounded-2xl border border-metallic-gray">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-electric-blue mb-2">150+</div>
-              <div className="text-muted-foreground">Proyectos Completados</div>
+        {/* Methodology */}
+        <div className="mb-20">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12">
+            Nuestra Metodología
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {methodology.map((step, index) => {
+              const IconComponent = step.icon;
+              return (
+                <Card key={index} className="bg-card border-metallic-gray hover:border-electric-blue transition-colors duration-300 text-center">
+                  <CardHeader>
+                    <div className="text-4xl font-bold text-electric-blue mb-4">{step.step}</div>
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-lg mb-4 mx-auto">
+                      <IconComponent className="w-8 h-8 text-foreground" />
+                    </div>
+                    <CardTitle className="text-lg text-foreground">{step.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">{step.description}</p>
+                    <ul className="text-xs text-muted-foreground space-y-1">
+                      {step.details.map((detail, detailIndex) => (
+                        <li key={detailIndex} className="flex items-center">
+                          <div className="w-1 h-1 bg-electric-blue rounded-full mr-2"></div>
+                          {detail}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Key Benefits */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12">
+            Resultados Garantizados
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {benefits.map((benefit, index) => {
+              const IconComponent = benefit.icon;
+              return (
+                <div key={index} className="text-center bg-card p-6 rounded-lg border border-metallic-gray hover:border-electric-blue transition-colors duration-300">
+                  <IconComponent className="w-12 h-12 text-electric-blue mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-electric-blue mb-2">{benefit.stat}</div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{benefit.title}</h3>
+                  <p className="text-sm text-muted-foreground">{benefit.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Call to Action */}
+        <div className="bg-card p-12 rounded-2xl border border-metallic-gray text-center">
+          <h2 className="text-3xl font-bold text-foreground mb-4">
+            Protege tu negocio hoy mismo 🔒
+          </h2>
+          <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
+            En Encryptora, no solo ofrecemos soluciones, creamos oportunidades para que tu empresa crezca. 
+            Nuestro equipo de expertos está listo para llevar tu negocio al siguiente nivel. 🚀
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="flex items-center justify-center space-x-2">
+              <div className="w-2 h-2 bg-electric-blue rounded-full"></div>
+              <span className="text-foreground">Optimiza tu gestión</span>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-teal-green mb-2">98%</div>
-              <div className="text-muted-foreground">Satisfacción del Cliente</div>
+            <div className="flex items-center justify-center space-x-2">
+              <div className="w-2 h-2 bg-teal-green rounded-full"></div>
+              <span className="text-foreground">Aumenta tu productividad</span>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-cyan-bright mb-2">24/7</div>
-              <div className="text-muted-foreground">Soporte Disponible</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-electric-blue mb-2">0</div>
-              <div className="text-muted-foreground">Brechas de Seguridad</div>
+            <div className="flex items-center justify-center space-x-2">
+              <div className="w-2 h-2 bg-cyan-bright rounded-full"></div>
+              <span className="text-foreground">Conéctate con más clientes</span>
             </div>
           </div>
+          
+          <Button size="lg" className="bg-gradient-primary hover:opacity-90 shadow-glow">
+            Quiero contactar
+          </Button>
         </div>
       </div>
     </section>

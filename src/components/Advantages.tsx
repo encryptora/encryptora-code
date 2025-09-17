@@ -1,34 +1,63 @@
-import { Heart, Award, UserCheck, Settings } from 'lucide-react';
+import { Heart, Award, UserCheck, Settings, Shield, Zap, Target, CheckCircle } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const Advantages = () => {
   const advantages = [
     {
       icon: Heart,
-      title: 'Confianza',
-      description: 'Más de una década protegiendo empresas con total transparencia y compromiso.',
-      stats: '10+ años de experiencia',
+      title: 'Confianza Total',
+      description: 'Construimos relaciones duraderas basadas en transparencia y resultados medibles.',
+      stats: 'Confianza garantizada',
       color: 'text-teal-green'
     },
     {
       icon: Award,
-      title: 'Experiencia',
-      description: 'Equipo certificado con las más altas credenciales en ciberseguridad internacional.',
-      stats: '50+ certificaciones',
+      title: 'Excelencia Técnica',
+      description: 'Equipo altamente especializado con certificaciones internacionales en ciberseguridad.',
+      stats: 'Expertise certificado',
       color: 'text-electric-blue'
     },
     {
       icon: UserCheck,
-      title: 'Discreción',
-      description: 'Máxima confidencialidad y protección de datos en todos nuestros procesos.',
+      title: 'Máxima Confidencialidad',
+      description: 'Protección absoluta de tu información con los más altos estándares de privacidad.',
       stats: '100% confidencial',
       color: 'text-cyan-bright'
     },
     {
       icon: Settings,
       title: 'Soluciones Personalizadas',
-      description: 'Cada empresa es única. Creamos estrategias adaptadas a tus necesidades específicas.',
-      stats: 'Soluciones únicas',
+      description: 'Cada empresa es única. Desarrollamos estrategias adaptadas a tus necesidades específicas.',
+      stats: 'Enfoque personalizado',
       color: 'text-teal-green'
+    }
+  ];
+
+  const differentiators = [
+    {
+      icon: Shield,
+      title: 'Enfoque Preventivo',
+      description: 'No esperamos a que ocurran los ataques. Identificamos y mitigamos riesgos proactivamente.',
+      benefits: ['Detección temprana', 'Prevención automatizada', 'Monitorización continua']
+    },
+    {
+      icon: Zap,
+      title: 'Respuesta Inmediata',
+      description: 'Tiempo de respuesta garantizado ante incidentes críticos de seguridad.',
+      benefits: ['Disponibilidad 24/7', 'Escalado automático', 'Recuperación rápida']
+    },
+    {
+      icon: Target,
+      title: 'Precisión Técnica',
+      description: 'Utilizamos las herramientas y metodologías más avanzadas del mercado.',
+      benefits: ['Tecnología de vanguardia', 'Metodologías probadas', 'Análisis exhaustivo']
+    },
+    {
+      icon: CheckCircle,
+      title: 'Cumplimiento Asegurado',
+      description: 'Garantizamos el cumplimiento de todas las normativas aplicables a tu sector.',
+      benefits: ['RGPD compliant', 'Auditorías exitosas', 'Documentación completa']
     }
   ];
 
@@ -79,7 +108,42 @@ const Advantages = () => {
           })}
         </div>
 
-        {/* Feature Highlights */}
+        {/* Differentiators */}
+        <div className="mt-20">
+          <h3 className="text-3xl font-bold text-foreground text-center mb-12">
+            Lo que nos Diferencia
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {differentiators.map((diff, index) => {
+              const IconComponent = diff.icon;
+              return (
+                <Card key={index} className="bg-card border-metallic-gray hover:border-electric-blue transition-all duration-300 hover:shadow-glow">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center">
+                        <IconComponent className="w-6 h-6 text-foreground" />
+                      </div>
+                      <CardTitle className="text-xl text-foreground">{diff.title}</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground mb-4">{diff.description}</p>
+                    <div className="space-y-2">
+                      {diff.benefits.map((benefit, benefitIndex) => (
+                        <div key={benefitIndex} className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-electric-blue rounded-full"></div>
+                          <span className="text-sm text-foreground">{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Results Section */}
         <div className="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <h3 className="text-3xl font-bold text-foreground mb-6">
@@ -103,24 +167,30 @@ const Advantages = () => {
               <div className="flex items-start space-x-4">
                 <div className="w-3 h-3 bg-cyan-bright rounded-full mt-2 flex-shrink-0"></div>
                 <div>
-                  <h4 className="text-lg font-semibold text-foreground mb-2">Satisfacción del Cliente</h4>
-                  <p className="text-muted-foreground">98% de satisfacción y renovación de contratos año tras año.</p>
+                  <h4 className="text-lg font-semibold text-foreground mb-2">Disponibilidad del Servicio</h4>
+                  <p className="text-muted-foreground">Soporte especializado disponible cuando lo necesites.</p>
                 </div>
               </div>
+            </div>
+            
+            <div className="mt-8">
+              <Button size="lg" className="bg-gradient-primary hover:opacity-90 shadow-glow">
+                Conoce Nuestros Servicios
+              </Button>
             </div>
           </div>
           
           <div className="bg-gradient-dark p-8 rounded-2xl border border-metallic-gray">
             <blockquote className="text-xl text-foreground italic mb-6">
-              "Encryptora transformó completamente nuestra postura de seguridad. Su enfoque profesional y resultados medibles nos dieron la confianza que necesitábamos."
+              "Encryptora nos proporcionó la tranquilidad que necesitábamos. Su approach profesional y conocimiento técnico superaron nuestras expectativas."
             </blockquote>
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
                 <UserCheck className="w-6 h-6 text-foreground" />
               </div>
               <div>
-                <div className="font-semibold text-foreground">CEO, Empresa Fortune 500</div>
-                <div className="text-sm text-muted-foreground">Cliente desde 2020</div>
+                <div className="font-semibold text-foreground">Director TI</div>
+                <div className="text-sm text-muted-foreground">Empresa del sector financiero</div>
               </div>
             </div>
           </div>
