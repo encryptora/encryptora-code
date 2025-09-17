@@ -1,18 +1,19 @@
 import { useState } from 'react';
 import { Menu, X, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 import encryptoraLogo from '@/assets/encryptora-logo.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { name: 'Inicio', href: '#inicio' },
-    { name: 'Servicios', href: '#servicios' },
-    { name: 'Metodología', href: '#metodologia' },
-    { name: 'Ventajas', href: '#ventajas' },
-    { name: 'Confianza', href: '#confianza' },
-    { name: 'Contacto', href: '#contacto' },
+    { name: 'Inicio', href: '/' },
+    { name: 'Servicios', href: '/servicios' },
+    { name: 'Metodología', href: '/metodologia' },
+    { name: 'Ventajas', href: '/ventajas' },
+    { name: 'Confianza', href: '/confianza' },
+    { name: 'Contacto', href: '/contacto' },
   ];
 
   return (
@@ -33,24 +34,28 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className="text-foreground hover:text-electric-blue transition-colors duration-300 text-sm font-medium"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </nav>
 
           {/* CTA Button */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Button variant="outline" size="sm" className="border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-foreground">
-              Iniciar Sesión
-            </Button>
-            <Button size="sm" className="bg-gradient-primary hover:opacity-90">
-              Auditoría Gratuita
-            </Button>
+            <Link to="/auth">
+              <Button variant="outline" size="sm" className="border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-foreground">
+                Iniciar Sesión
+              </Button>
+            </Link>
+            <Link to="/contacto">
+              <Button size="sm" className="bg-gradient-primary hover:opacity-90">
+                Auditoría Gratuita
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -67,22 +72,26 @@ const Header = () => {
           <div className="lg:hidden mt-4 pb-4 border-t border-metallic-gray">
             <nav className="flex flex-col space-y-4 mt-4">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   className="text-foreground hover:text-electric-blue transition-colors duration-300 text-sm font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
               <div className="flex flex-col space-y-2 pt-4 border-t border-metallic-gray">
-                <Button variant="outline" size="sm" className="border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-foreground">
-                  Iniciar Sesión
-                </Button>
-                <Button size="sm" className="bg-gradient-primary hover:opacity-90">
-                  Auditoría Gratuita
-                </Button>
+                <Link to="/auth">
+                  <Button variant="outline" size="sm" className="border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-foreground w-full">
+                    Iniciar Sesión
+                  </Button>
+                </Link>
+                <Link to="/contacto">
+                  <Button size="sm" className="bg-gradient-primary hover:opacity-90 w-full">
+                    Auditoría Gratuita
+                  </Button>
+                </Link>
               </div>
             </nav>
           </div>

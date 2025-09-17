@@ -1,26 +1,23 @@
+import { Helmet } from 'react-helmet-async';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import Services from '@/components/Services';
-import Methodology from '@/components/Methodology';
-import Advantages from '@/components/Advantages';
-import Trust from '@/components/Trust';
-import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main>
-        <Hero />
-        <Services />
-        <Methodology />
-        <Advantages />
-        <Trust />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <Helmet>
+        <title>Encryptora | Consultoría en Ciberseguridad Empresarial</title>
+        <meta name="description" content="Protege tu empresa con Encryptora, expertos en ciberseguridad empresarial. Auditorías, consultoría y soluciones personalizadas." />
+      </Helmet>
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main>
+          <Hero />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 };
 
