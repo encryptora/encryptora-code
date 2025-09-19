@@ -44,8 +44,25 @@ const Hero = () => {
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
             En <strong className="text-electric-blue">Encryptora</strong>, ofrecemos un servicio de ciberseguridad integral 
             diseñado para proteger tu organización de amenazas digitales, garantizar la continuidad de tu negocio 
-            y salvaguardar tus datos más valiosos.
+            y salvaguardar tus datos más valiosos. Nos especializamos en la implementación de soluciones personalizadas 
+            que se adaptan a las necesidades de cada cliente, brindando protección completa y confiabilidad en cada proceso.
           </p>
+
+          {/* Why Cybersecurity Section */}
+          <div className="mb-12 bg-carbon/50 rounded-2xl p-8 border border-metallic-gray">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">
+              ¿Por qué la Ciberseguridad es crucial para su empresa?
+            </h2>
+            <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+              Vivimos en un mundo interconectado donde los ataques cibernéticos son cada vez más frecuentes y sofisticados. 
+              Desde pequeñas empresas hasta grandes corporaciones, todas las organizaciones son vulnerables a ataques que 
+              pueden comprometer datos confidenciales, interrumpir operaciones y causar pérdidas económicas significativas.
+            </p>
+            <p className="text-lg text-electric-blue font-medium">
+              En Encryptora, entendemos estos riesgos y nos comprometemos a ofrecer soluciones que no solo previenen 
+              los ataques, sino que también detectan y mitigan las amenazas antes de que puedan causar daño.
+            </p>
+          </div>
 
           {/* Key Points */}
           <div className="flex flex-wrap justify-center gap-6 mb-10">

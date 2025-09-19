@@ -17,6 +17,7 @@ const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [isRecovery, setIsRecovery] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -35,7 +36,20 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      if (isLogin) {
+      if (isRecovery) {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/auth?recovery=true`,
+        });
+
+        if (error) throw error;
+
+        toast({
+          title: "Email enviado",
+          description: "Revisa tu email para restablecer tu contraseña.",
+        });
+        setIsRecovery(false);
+        setIsLogin(true);
+      } else if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -52,7 +66,7 @@ const Auth = () => {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/`,
+            emailRedirectTo: `${window.location.origin}/auth`,
             data: {
               name: name,
             }
@@ -65,6 +79,11 @@ const Auth = () => {
           title: "¡Registro exitoso!",
           description: "Por favor verifica tu email para completar el registro.",
         });
+        
+        // Cambiar a modo login después del registro exitoso
+        setIsLogin(true);
+        setName('');
+        setPassword('');
       }
     } catch (error: any) {
       toast({
@@ -93,23 +112,25 @@ const Auth = () => {
                   <Shield className="w-8 h-8 text-white" />
                 </div>
                 <h1 className="text-3xl font-bold mb-2">
-                  {isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
+                  {isRecovery ? 'Recuperar Contraseña' : isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
                 </h1>
                 <p className="text-muted-foreground">
-                  {isLogin ? 'Accede a tu panel de ciberseguridad' : 'Regístrate para gestionar tus servicios'}
+                  {isRecovery ? 'Ingresa tu email para recuperar tu contraseña' : isLogin ? 'Accede a tu panel de ciberseguridad' : 'Regístrate para gestionar tus servicios'}
                 </p>
               </div>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>{isLogin ? 'Bienvenido de nuevo' : 'Crear nueva cuenta'}</CardTitle>
+                  <CardTitle>
+                    {isRecovery ? 'Recuperar contraseña' : isLogin ? 'Bienvenido de nuevo' : 'Crear nueva cuenta'}
+                  </CardTitle>
                   <CardDescription>
-                    {isLogin ? 'Ingresa tus credenciales para continuar' : 'Completa los datos para registrarte'}
+                    {isRecovery ? 'Te enviaremos un enlace para restablecer tu contraseña' : isLogin ? 'Ingresa tus credenciales para continuar' : 'Completa los datos para registrarte'}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleAuth} className="space-y-4">
-                    {!isLogin && (
+                    {!isLogin && !isRecovery && (
                       <div className="space-y-2">
                         <Label htmlFor="name">Nombre completo</Label>
                         <div className="relative">
@@ -121,7 +142,7 @@ const Auth = () => {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="pl-10"
-                            required={!isLogin}
+                            required={!isLogin && !isRecovery}
                           />
                         </div>
                       </div>
@@ -143,44 +164,74 @@ const Auth = () => {
                       </div>
                     </div>
                     
-                    <div className="space-y-2">
-                      <Label htmlFor="password">Contraseña</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="password"
-                          type="password"
-                          placeholder="Tu contraseña"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          className="pl-10"
-                          required
-                        />
+                    {!isRecovery && (
+                      <div className="space-y-2">
+                        <Label htmlFor="password">Contraseña</Label>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            id="password"
+                            type="password"
+                            placeholder="Tu contraseña"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="pl-10"
+                            required
+                          />
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     <Button 
                       type="submit" 
                       className="w-full bg-gradient-primary hover:opacity-90"
                       disabled={isLoading}
                     >
-                      {isLoading ? 'Procesando...' : isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
+                      {isLoading ? 'Procesando...' : isRecovery ? 'Enviar Email' : isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
                     </Button>
                   </form>
 
-                  <div className="mt-6 text-center">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsLogin(!isLogin);
-                        setName('');
-                        setEmail('');
-                        setPassword('');
-                      }}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión'}
-                    </button>
+                  <div className="mt-6 text-center space-y-2">
+                    {!isRecovery && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsLogin(!isLogin);
+                            setName('');
+                            setEmail('');
+                            setPassword('');
+                          }}
+                          className="text-sm text-muted-foreground hover:text-foreground transition-colors block w-full"
+                        >
+                          {isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión'}
+                        </button>
+                        {isLogin && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setIsRecovery(true);
+                              setPassword('');
+                            }}
+                            className="text-sm text-electric-blue hover:text-electric-blue/80 transition-colors"
+                          >
+                            ¿Olvidaste tu contraseña?
+                          </button>
+                        )}
+                      </>
+                    )}
+                    {isRecovery && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsRecovery(false);
+                          setEmail('');
+                        }}
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        Volver al inicio de sesión
+                      </button>
+                    )}
                   </div>
                 </CardContent>
               </Card>

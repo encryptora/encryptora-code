@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Menu, X, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import encryptoraLogo from '@/assets/encryptora-logo.png';
+import encryptoraLogo from '@/assets/encryptora-logo-new.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
