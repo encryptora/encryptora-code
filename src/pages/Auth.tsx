@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -16,36 +16,72 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
   const [isRecovery, setIsRecovery] = useState(false);
+  const [isPasswordReset, setIsPasswordReset] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
 
   useEffect(() => {
+    // Check for recovery or confirmation tokens in URL
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    const accessToken = hashParams.get('access_token');
+    const type = hashParams.get('type');
+    
+    if (type === 'recovery' && accessToken) {
+      setIsPasswordReset(true);
+      setIsLogin(false);
+      setIsRecovery(false);
+    }
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
+      if (session && !isPasswordReset) {
         navigate('/');
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, isPasswordReset]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      if (isRecovery) {
+      if (isPasswordReset) {
+        if (password !== confirmPassword) {
+          throw new Error('Las contraseñas no coinciden');
+        }
+        if (password.length < 6) {
+          throw new Error('La contraseña debe tener al menos 6 caracteres');
+        }
+
+        const { error } = await supabase.auth.updateUser({
+          password: password
+        });
+
+        if (error) throw error;
+
+        toast({
+          title: "¡Contraseña actualizada!",
+          description: "Tu contraseña ha sido cambiada exitosamente.",
+        });
+        
+        // Redirect to home after successful password reset
+        navigate('/');
+      } else if (isRecovery) {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `${window.location.origin}/auth?recovery=true`,
+          redirectTo: `${window.location.origin}/auth`,
         });
 
         if (error) throw error;
 
         toast({
           title: "Email enviado",
-          description: "Revisa tu email para restablecer tu contraseña.",
+          description: "Revisa tu email para restablecer tu contraseña. Si no lo ves, revisa tu carpeta de spam.",
         });
         setIsRecovery(false);
         setIsLogin(true);
@@ -77,7 +113,7 @@ const Auth = () => {
 
         toast({
           title: "¡Registro exitoso!",
-          description: "Por favor verifica tu email para completar el registro.",
+          description: "Por favor verifica tu email para completar el registro. Si no lo ves, revisa tu carpeta de spam.",
         });
         
         // Cambiar a modo login después del registro exitoso
@@ -86,9 +122,21 @@ const Auth = () => {
         setPassword('');
       }
     } catch (error: any) {
+      let errorMessage = "Ha ocurrido un error inesperado.";
+      
+      if (error.message?.includes('Invalid login credentials')) {
+        errorMessage = "Credenciales incorrectas. Verifica tu email y contraseña.";
+      } else if (error.message?.includes('User already registered')) {
+        errorMessage = "Este email ya está registrado. Intenta iniciar sesión.";
+      } else if (error.message?.includes('Email not confirmed')) {
+        errorMessage = "Por favor confirma tu email antes de iniciar sesión.";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
       toast({
         title: "Error",
-        description: error.message || "Ha ocurrido un error inesperado.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -112,25 +160,25 @@ const Auth = () => {
                   <Shield className="w-8 h-8 text-white" />
                 </div>
                 <h1 className="text-3xl font-bold mb-2">
-                  {isRecovery ? 'Recuperar Contraseña' : isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
+                  {isPasswordReset ? 'Cambiar Contraseña' : isRecovery ? 'Recuperar Contraseña' : isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
                 </h1>
                 <p className="text-muted-foreground">
-                  {isRecovery ? 'Ingresa tu email para recuperar tu contraseña' : isLogin ? 'Accede a tu panel de ciberseguridad' : 'Regístrate para gestionar tus servicios'}
+                  {isPasswordReset ? 'Ingresa tu nueva contraseña' : isRecovery ? 'Ingresa tu email para recuperar tu contraseña' : isLogin ? 'Accede a tu panel de ciberseguridad' : 'Regístrate para gestionar tus servicios'}
                 </p>
               </div>
 
               <Card>
                 <CardHeader>
                   <CardTitle>
-                    {isRecovery ? 'Recuperar contraseña' : isLogin ? 'Bienvenido de nuevo' : 'Crear nueva cuenta'}
+                    {isPasswordReset ? 'Nueva contraseña' : isRecovery ? 'Recuperar contraseña' : isLogin ? 'Bienvenido de nuevo' : 'Crear nueva cuenta'}
                   </CardTitle>
                   <CardDescription>
-                    {isRecovery ? 'Te enviaremos un enlace para restablecer tu contraseña' : isLogin ? 'Ingresa tus credenciales para continuar' : 'Completa los datos para registrarte'}
+                    {isPasswordReset ? 'Crea una nueva contraseña segura para tu cuenta' : isRecovery ? 'Te enviaremos un enlace para restablecer tu contraseña' : isLogin ? 'Ingresa tus credenciales para continuar' : 'Completa los datos para registrarte'}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleAuth} className="space-y-4">
-                    {!isLogin && !isRecovery && (
+                    {!isLogin && !isRecovery && !isPasswordReset && (
                       <div className="space-y-2">
                         <Label htmlFor="name">Nombre completo</Label>
                         <div className="relative">
@@ -142,39 +190,67 @@ const Auth = () => {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="pl-10"
-                            required={!isLogin && !isRecovery}
+                            required={!isLogin && !isRecovery && !isPasswordReset}
                           />
                         </div>
                       </div>
                     )}
                     
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="tu@email.com"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          className="pl-10"
-                          required
-                        />
+                    {!isPasswordReset && (
+                      <div className="space-y-2">
+                        <Label htmlFor="email">Email</Label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            id="email"
+                            type="email"
+                            placeholder="tu@email.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="pl-10"
+                            required={!isPasswordReset}
+                          />
+                        </div>
                       </div>
-                    </div>
+                    )}
                     
                     {!isRecovery && (
                       <div className="space-y-2">
-                        <Label htmlFor="password">Contraseña</Label>
+                        <Label htmlFor="password">
+                          {isPasswordReset ? 'Nueva contraseña' : 'Contraseña'}
+                        </Label>
                         <div className="relative">
                           <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                           <Input
                             id="password"
                             type="password"
-                            placeholder="Tu contraseña"
+                            placeholder={isPasswordReset ? "Ingresa tu nueva contraseña" : "Tu contraseña"}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            className="pl-10"
+                            required
+                            minLength={6}
+                          />
+                        </div>
+                        {isPasswordReset && (
+                          <p className="text-xs text-muted-foreground">
+                            Mínimo 6 caracteres
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {isPasswordReset && (
+                      <div className="space-y-2">
+                        <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            id="confirmPassword"
+                            type="password"
+                            placeholder="Confirma tu nueva contraseña"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                             className="pl-10"
                             required
                           />
@@ -187,12 +263,12 @@ const Auth = () => {
                       className="w-full bg-gradient-primary hover:opacity-90"
                       disabled={isLoading}
                     >
-                      {isLoading ? 'Procesando...' : isRecovery ? 'Enviar Email' : isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
+                      {isLoading ? 'Procesando...' : isPasswordReset ? 'Cambiar Contraseña' : isRecovery ? 'Enviar Email' : isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
                     </Button>
                   </form>
 
                   <div className="mt-6 text-center space-y-2">
-                    {!isRecovery && (
+                    {!isRecovery && !isPasswordReset && (
                       <>
                         <button
                           type="button"
@@ -201,6 +277,7 @@ const Auth = () => {
                             setName('');
                             setEmail('');
                             setPassword('');
+                            setConfirmPassword('');
                           }}
                           className="text-sm text-muted-foreground hover:text-foreground transition-colors block w-full"
                         >
@@ -212,6 +289,7 @@ const Auth = () => {
                             onClick={() => {
                               setIsRecovery(true);
                               setPassword('');
+                              setConfirmPassword('');
                             }}
                             className="text-sm text-electric-blue hover:text-electric-blue/80 transition-colors"
                           >
@@ -226,11 +304,18 @@ const Auth = () => {
                         onClick={() => {
                           setIsRecovery(false);
                           setEmail('');
+                          setPassword('');
+                          setConfirmPassword('');
                         }}
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                       >
                         Volver al inicio de sesión
                       </button>
+                    )}
+                    {isPasswordReset && (
+                      <div className="text-sm text-muted-foreground">
+                        Cambiarás tu contraseña y serás redirigido al inicio
+                      </div>
                     )}
                   </div>
                 </CardContent>
