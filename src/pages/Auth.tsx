@@ -20,6 +20,7 @@ const Auth = () => {
   const [name, setName] = useState('');
   const [isRecovery, setIsRecovery] = useState(false);
   const [isPasswordReset, setIsPasswordReset] = useState(false);
+  const [showResendEmail, setShowResendEmail] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -116,8 +117,8 @@ const Auth = () => {
           description: "Por favor verifica tu email para completar el registro. Si no lo ves, revisa tu carpeta de spam.",
         });
         
-        // Cambiar a modo login después del registro exitoso
-        setIsLogin(true);
+        // Mostrar opción para reenviar email después del registro
+        setShowResendEmail(true);
         setName('');
         setPassword('');
       }
@@ -137,6 +138,43 @@ const Auth = () => {
       toast({
         title: "Error",
         description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResendEmail = async () => {
+    if (!email) {
+      toast({
+        title: "Error",
+        description: "Por favor ingresa tu email",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email: email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth`,
+        }
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Email reenviado",
+        description: "Te hemos enviado un nuevo correo de verificación. Revisa tu carpeta de spam si no lo ves.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "No se pudo reenviar el email",
         variant: "destructive",
       });
     } finally {
@@ -270,6 +308,23 @@ const Auth = () => {
                   <div className="mt-6 text-center space-y-2">
                     {!isRecovery && !isPasswordReset && (
                       <>
+                        {showResendEmail && (
+                          <div className="bg-muted p-4 rounded-lg mb-4">
+                            <p className="text-sm text-muted-foreground mb-2">
+                              ¿No recibiste el correo de verificación?
+                            </p>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={handleResendEmail}
+                              disabled={isLoading}
+                              className="w-full"
+                            >
+                              {isLoading ? 'Reenviando...' : 'Reenviar correo de verificación'}
+                            </Button>
+                          </div>
+                        )}
                         <button
                           type="button"
                           onClick={() => {
@@ -278,6 +333,7 @@ const Auth = () => {
                             setEmail('');
                             setPassword('');
                             setConfirmPassword('');
+                            setShowResendEmail(false);
                           }}
                           className="text-sm text-muted-foreground hover:text-foreground transition-colors block w-full"
                         >
@@ -290,6 +346,7 @@ const Auth = () => {
                               setIsRecovery(true);
                               setPassword('');
                               setConfirmPassword('');
+                              setShowResendEmail(false);
                             }}
                             className="text-sm text-electric-blue hover:text-electric-blue/80 transition-colors"
                           >
@@ -306,6 +363,7 @@ const Auth = () => {
                           setEmail('');
                           setPassword('');
                           setConfirmPassword('');
+                          setShowResendEmail(false);
                         }}
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                       >
