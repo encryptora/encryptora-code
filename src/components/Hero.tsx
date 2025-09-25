@@ -23,15 +23,15 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-20 container mx-auto px-4 py-20 text-center">
+      <div className="relative z-20 container mx-auto px-4 py-24 text-center">
         <div className="max-w-4xl mx-auto">
           {/* Icon Badge */}
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-primary rounded-full mb-8 shadow-glow">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-primary rounded-full mb-12 shadow-glow">
             <Shield className="w-10 h-10 text-foreground" />
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-8 leading-tight">
             Consultoría en{' '}
             <span className="text-transparent bg-clip-text bg-gradient-primary">
               Ciberseguridad
