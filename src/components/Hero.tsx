@@ -32,19 +32,37 @@ const Hero = () => {
 
           {/* Main Heading */}
           <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-8 leading-tight">
+            Consultoría en{' '}
             <span className="text-transparent bg-clip-text bg-gradient-primary">
-              Protegemos tu negocio
+              Ciberseguridad
             </span>
             <br />
-            frente a ciberamenazas
+            Protegemos lo que más te importa
           </h1>
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-            Blindamos tus datos más valiosos y garantizamos la continuidad de tu empresa con 
-            <strong className="text-electric-blue"> soluciones de ciberseguridad a medida</strong>.
+            En <strong className="text-electric-blue">Encryptora</strong>, ofrecemos un servicio de ciberseguridad integral 
+            diseñado para proteger tu organización de amenazas digitales, garantizar la continuidad de tu negocio 
+            y salvaguardar tus datos más valiosos. Nos especializamos en la implementación de soluciones personalizadas 
+            que se adaptan a las necesidades de cada cliente, brindando protección completa y confiabilidad en cada proceso.
           </p>
 
+          {/* Why Cybersecurity Section */}
+          <div className="mb-12 bg-carbon/50 rounded-2xl p-8 border border-metallic-gray">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">
+              ¿Por qué la Ciberseguridad es crucial para su empresa?
+            </h2>
+            <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+              Vivimos en un mundo interconectado donde los ataques cibernéticos son cada vez más frecuentes y sofisticados. 
+              Desde pequeñas empresas hasta grandes corporaciones, todas las organizaciones son vulnerables a ataques que 
+              pueden comprometer datos confidenciales, interrumpir operaciones y causar pérdidas económicas significativas.
+            </p>
+            <p className="text-lg text-electric-blue font-medium">
+              En Encryptora, entendemos estos riesgos y nos comprometemos a ofrecer soluciones que no solo previenen 
+              los ataques, sino que también detectan y mitigan las amenazas antes de que puedan causar daño.
+            </p>
+          </div>
 
           {/* Key Points */}
           <div className="flex flex-wrap justify-center gap-6 mb-10">
@@ -68,7 +86,7 @@ const Hero = () => {
               size="lg" 
               className="bg-gradient-primary hover:opacity-90 shadow-glow text-lg px-8 py-6 group"
             >
-              Solicita tu Auditoría Gratuita Ahora
+              Auditoría Gratuita
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button 
@@ -76,7 +94,7 @@ const Hero = () => {
               size="lg" 
               className="border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-foreground text-lg px-8 py-6"
             >
-              Conoce nuestros Servicios
+              Conocer Servicios
             </Button>
           </div>
 

@@ -1,14 +1,39 @@
-import { Facebook, Linkedin, Twitter, Mail, Phone, MapPin, Shield, AlertTriangle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-import encryptoraLogo from '@/assets/encryptora-logo-new.png';
+import { Shield, Mail, Phone, MapPin, Linkedin, Twitter, Facebook } from 'lucide-react';
+import encryptoraLogo from '@/assets/encryptora-logo.png';
 
 const Footer = () => {
+  const services = [
+    'Auditorías de Seguridad',
+    'Pentesting',
+    'Cumplimiento Normativo',
+    'Formación en Ciberseguridad',
+    'Consultoría Estratégica',
+    'Respuesta a Incidentes'
+  ];
+
+  const company = [
+    'Sobre Nosotros',
+    'Nuestro Equipo',
+    'Certificaciones',
+    'Casos de Éxito',
+    'Blog de Seguridad',
+    'Carreras'
+  ];
+
+  const legal = [
+    'Política de Privacidad',
+    'Términos de Servicio',
+    'Política de Cookies',
+    'Aviso Legal',
+    'Código de Ética',
+    'Compliance'
+  ];
+
   return (
     <footer className="bg-carbon border-t border-metallic-gray">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Columna 1 - Marca */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          {/* Brand */}
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
@@ -19,182 +44,120 @@ const Footer = () => {
                 <p className="text-xs text-muted-foreground">Consultoría en Ciberseguridad</p>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Protegemos a las empresas frente a amenazas digitales con 
-              soluciones innovadoras, confiables y a medida.
+            <p className="text-muted-foreground leading-relaxed">
+              Protegemos a las empresas contra amenazas digitales con soluciones innovadoras, 
+              confiables y personalizadas.
             </p>
             <div className="flex space-x-4">
               <a 
                 href="#" 
-                className="text-muted-foreground hover:text-electric-blue transition-colors duration-300"
-                aria-label="LinkedIn"
+                className="w-10 h-10 bg-metallic-gray rounded-lg flex items-center justify-center hover:bg-electric-blue transition-colors duration-300"
               >
-                <Linkedin className="w-5 h-5" />
+                <Linkedin className="w-5 h-5 text-foreground" />
               </a>
               <a 
                 href="#" 
-                className="text-muted-foreground hover:text-electric-blue transition-colors duration-300"
-                aria-label="Twitter"
+                className="w-10 h-10 bg-metallic-gray rounded-lg flex items-center justify-center hover:bg-electric-blue transition-colors duration-300"
               >
-                <Twitter className="w-5 h-5" />
+                <Twitter className="w-5 h-5 text-foreground" />
               </a>
               <a 
                 href="#" 
-                className="text-muted-foreground hover:text-electric-blue transition-colors duration-300"
-                aria-label="Facebook"
+                className="w-10 h-10 bg-metallic-gray rounded-lg flex items-center justify-center hover:bg-electric-blue transition-colors duration-300"
               >
-                <Facebook className="w-5 h-5" />
+                <Facebook className="w-5 h-5 text-foreground" />
               </a>
             </div>
           </div>
 
-          {/* Columna 2 - Servicios */}
+          {/* Services */}
           <div>
-            <h4 className="text-lg font-semibold text-foreground mb-4">Servicios</h4>
+            <h4 className="text-lg font-semibold text-foreground mb-6">Servicios</h4>
             <ul className="space-y-3">
-              <li>
-                <Link to="/servicios" className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                  Auditorías de Seguridad
-                </Link>
-              </li>
-              <li>
-                <Link to="/servicios" className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                  Pentesting
-                </Link>
-              </li>
-              <li>
-                <Link to="/servicios" className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                  Cumplimiento Normativo
-                </Link>
-              </li>
-              <li>
-                <Link to="/servicios" className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                  Formación en Ciberseguridad
-                </Link>
-              </li>
-              <li>
-                <Link to="/servicios" className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                  Consultoría Estratégica
-                </Link>
-              </li>
-              <li>
-                <Link to="/servicios" className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                  Respuesta a Incidentes
-                </Link>
-              </li>
+              {services.map((service, index) => (
+                <li key={index}>
+                  <a 
+                    href="#servicios" 
+                    className="text-muted-foreground hover:text-electric-blue transition-colors duration-300 text-sm"
+                  >
+                    {service}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Columna 3 - Empresa */}
+          {/* Company */}
           <div>
-            <h4 className="text-lg font-semibold text-foreground mb-4">Empresa</h4>
+            <h4 className="text-lg font-semibold text-foreground mb-6">Empresa</h4>
             <ul className="space-y-3">
-              <li>
-                <Link to="/ventajas" className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                  Sobre Nosotros
-                </Link>
-              </li>
-              <li>
-                <Link to="/confianza" className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                  Nuestro Equipo
-                </Link>
-              </li>
-              <li>
-                <Link to="/confianza" className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                  Casos de Éxito
-                </Link>
-              </li>
-              <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                  Blog de Seguridad
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                  Carreras
-                </a>
-              </li>
+              {company.map((item, index) => (
+                <li key={index}>
+                  <a 
+                    href="#" 
+                    className="text-muted-foreground hover:text-electric-blue transition-colors duration-300 text-sm"
+                  >
+                    {item}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Columna 4 - Contacto */}
+          {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold text-foreground mb-4">Contacto</h4>
+            <h4 className="text-lg font-semibold text-foreground mb-6">Contacto</h4>
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <Mail className="w-4 h-4 text-electric-blue flex-shrink-0" />
-                <a 
-                  href="mailto:contacto@encryptora.com" 
-                  className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300"
-                >
-                  contacto@encryptora.com
-                </a>
+                <Mail className="w-4 h-4 text-electric-blue" />
+                <span className="text-sm text-muted-foreground">contacto@encryptora.com</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="w-4 h-4 text-electric-blue flex-shrink-0" />
-                <a 
-                  href="tel:+34665484577" 
-                  className="text-sm text-muted-foreground hover:text-electric-blue transition-colors duration-300"
-                >
-                  +34 665 48 45 77
-                </a>
+                <Phone className="w-4 h-4 text-electric-blue" />
+                <span className="text-sm text-muted-foreground">+34 900 123 456</span>
               </div>
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-4 h-4 text-electric-blue flex-shrink-0 mt-0.5" />
-                <span className="text-sm text-muted-foreground">
-                  Barcelona, España
-                </span>
+              <div className="flex items-center space-x-3">
+                <MapPin className="w-4 h-4 text-electric-blue" />
+                <span className="text-sm text-muted-foreground">Madrid, España</span>
               </div>
             </div>
-
-            {/* Emergencias 24/7 */}
-            <div className="mt-6 p-4 bg-red-500/10 border-2 border-red-500/50 rounded-lg">
-              <div className="flex items-center space-x-2 mb-2">
-                <AlertTriangle className="w-5 h-5 text-red-500" />
-                <span className="text-sm font-bold text-red-500">Emergencias 24/7</span>
-              </div>
-              <p className="text-xs text-muted-foreground mb-3">
-                Respuesta inmediata a incidentes críticos
-              </p>
-              <Button 
-                size="sm" 
-                className="w-full bg-red-500 hover:bg-red-600 text-white shadow-lg"
-                asChild
-              >
-                <a href="tel:+34665484577">
-                  Llamar ahora
-                </a>
-              </Button>
+            <div className="mt-6 p-4 bg-card rounded-lg border border-metallic-gray">
+              <h5 className="text-sm font-semibold text-foreground mb-2">🚨 Emergencias 24/7</h5>
+              <p className="text-xs text-muted-foreground mb-2">Respuesta inmediata a incidentes críticos</p>
+              <p className="text-electric-blue font-medium text-sm">+34 900 123 456</p>
             </div>
           </div>
         </div>
 
         {/* Legal Links */}
-        <div className="border-t border-metallic-gray mt-12 pt-8">
+        <div className="pt-8 border-t border-metallic-gray">
+          <div className="flex flex-wrap justify-center lg:justify-start gap-6 mb-6">
+            {legal.map((item, index) => (
+              <a 
+                key={index}
+                href="#" 
+                className="text-xs text-muted-foreground hover:text-electric-blue transition-colors duration-300"
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div className="pt-8 border-t border-metallic-gray">
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
-            <div className="flex flex-wrap gap-6">
-              <a href="#" className="text-xs text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                Política de Privacidad
-              </a>
-              <a href="#" className="text-xs text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                Términos de Servicio
-              </a>
-              <a href="#" className="text-xs text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                Política de Cookies
-              </a>
-              <a href="#" className="text-xs text-muted-foreground hover:text-electric-blue transition-colors duration-300">
-                Aviso Legal
-              </a>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <span className="text-xs text-muted-foreground">
+            <div className="text-center lg:text-left">
+              <p className="text-sm text-muted-foreground">
                 © 2024 Encryptora. Todos los derechos reservados.
-              </span>
-              <div className="flex items-center space-x-2">
-                <Shield className="w-4 h-4 text-electric-blue" />
-                <span className="text-xs text-electric-blue">ISO 27001 Certified</span>
-              </div>
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Consultoría profesional en ciberseguridad | Madrid, España
+              </p>
+            </div>
+            <div className="flex items-center space-x-2 text-xs text-muted-foreground">
+              <Shield className="w-4 h-4 text-electric-blue" />
+              <span>Certificado ISO 27001 | SOC 2 Type II</span>
             </div>
           </div>
         </div>
