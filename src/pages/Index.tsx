@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Footer from '@/components/Footer';
+import ChatBot from '@/components/ChatBot';
 
 const Index = () => {
   return (
@@ -16,6 +17,7 @@ const Index = () => {
           <Hero />
         </main>
         <Footer />
+        <ChatBot />
       </div>
     </>
   );
